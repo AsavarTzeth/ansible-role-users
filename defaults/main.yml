@@ -1,0 +1,3 @@
+---
+# The default shell used for all users, when left unspecified
+users_default_shell: /bin/bash

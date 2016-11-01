@@ -1,0 +1,23 @@
+---
+- name: setup users
+  user:
+    name: "{{ item.username | mandatory }}"
+    groups: "{{ item.groups | default('') | join(',') }}"
+    shell: "{{ item.shell | default(users_default_shell) }}"
+    password: "{{ item.passwd | password_hash('sha512',item.passwd_salt)
+                  if item.passwd is defined else omit}}"
+    comment: "{{ item.name | default(omit) }}"
+    state: "{{ item.state | default(omit) }}"
+  with_items: "{{ users }}"
+  no_log: true
+  tags: users
+
+- name: setup ssh keys
+  authorized_key:
+    user: "{{item.0.username}}"
+    key: "{{ item.1 }}"
+  with_subelements:
+    - "{{ users }}"
+    - ssh_authorized_keys
+    - skip_missing: true
+  tags: users
