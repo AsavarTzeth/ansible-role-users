@@ -1,11 +1,23 @@
 ---
+- name: create groups
+  group: name="{{ item.primary_group }}"
+  when:
+    - item.primary_group is defined
+    - users_create_primary_group
+  with_items: "{{ users }}"
+  no_log: true
+  tags: users
+
 - name: setup users
   user:
     name: "{{ item.username | mandatory }}"
+    group: "{{ item.primary_group if users_create_primary_group
+           and item.primary_group is defined else omit }}"
     groups: "{{ item.groups | default('') | join(',') }}"
     shell: "{{ item.shell | default(users_default_shell) }}"
     password: "{{ item.passwd | password_hash('sha512',item.passwd_salt)
-                  if item.passwd is defined else omit}}"
+              if item.passwd is defined and item.passwd_salt is defined
+              else omit }}"
     comment: "{{ item.name | default(omit) }}"
     state: "{{ item.state | default(omit) }}"
   with_items: "{{ users }}"
@@ -20,4 +32,5 @@
     - "{{ users }}"
     - ssh_authorized_keys
     - skip_missing: true
+  no_log: true
   tags: users

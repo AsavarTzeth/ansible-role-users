@@ -1,3 +1,6 @@
 ---
 # The default shell used for all users, when left unspecified
 users_default_shell: /bin/bash
+
+# The default action when primary_group is defined but the group does not exist
+users_create_primary_group: true
