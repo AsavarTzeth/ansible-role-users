@@ -29,7 +29,7 @@
 
 - name: setup ssh keys
   authorized_key:
-    user: "{{ item.0.username }}"
+    user: "{{ item.0.name }}"
     key: "{{ item.1 }}"
   with_subelements:
     - "{{ users }}"
