@@ -38,3 +38,8 @@
   become: true
   no_log: true
   tags: users
+
+- include: sudo.yml
+  when: users_enable_sudo
+  become: false
+  tags: users,sudo

@@ -1,0 +1,8 @@
+## {{ ansible_managed }}
+
+## Allow these users to execute commands via sudo
+{% for o in users %}
+{% if o.sudo is defined %}
+{{ o.name }} {{ o.sudo }}
+{% endif %}
+{% endfor %}
