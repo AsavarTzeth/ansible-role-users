@@ -21,6 +21,11 @@
       "{{ item.passwd | password_hash('sha512',item.passwd_salt)
       if item.passwd is defined and item.passwd_salt is defined else omit }}"
     comment: "{{ item.gecos | default(omit) }}"
+    home: "{{ item.homedir | default(omit) }}"
+    system: "{{ item.system | default(omit) }}"
+    createhome:
+      "{{ false if item.system is defined and item.system or
+      item.no_create_home is defined and item.no_create_home else omit }}"
     state: "{{ item.state | default(omit) }}"
   with_items: "{{ users }}"
   become: true

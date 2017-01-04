@@ -40,13 +40,17 @@ Definable values:
 
 - name - The username of the user.
 - gecos - The comment field, also known and used for the real name of the user.
+- homedir - The home directory of the user.
 - primary_group - The primary user group. 
 - groups - A list of complementary groups for the user.
+- no_create_home - If true, do not create a home directory.
 - shell - The default user shell.
 - ssh_authorized_keys - A list of ssh public keys to add to add to an
   authorized_keys file.
 - sudo - The sudo string that will be used to configure sudo if
-  users_enable_sudo is true
+  users_enable_sudo is true.
+- system - If true, the user will be a system user. This does not affect
+  existing users. It also means no home directory is created.
 
 Added values, outside of cloud-init:
 
@@ -70,5 +74,13 @@ users:
       - "ssh-rsa AAAAA.... foo@machine"
       - "ssh-rsa AAAAB.... bar@machine"
     sudo: ALL=(ALL) ALL
+    state: present
+
+  - name: foobar
+    gecos: FooBar Service Account
+    homedir: /
+    primary_group: foobar
+    shell: /sbin/nologin
+    system: true
     state: present
 ```
