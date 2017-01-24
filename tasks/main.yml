@@ -6,7 +6,7 @@
     - users_create_primary_group
   with_items: "{{ users }}"
   become: true
-  no_log: true
+  no_log: "{{ true if item.passwd is defined else false }}"
   tags: users
 
 - name: setup users
@@ -28,7 +28,7 @@
       item.no_create_home is defined and item.no_create_home else omit }}"
   with_items: "{{ users }}"
   become: true
-  no_log: true
+  no_log: "{{ true if item.passwd is defined else false }}"
   tags: users
 
 - name: setup ssh keys
@@ -40,7 +40,7 @@
     - ssh_authorized_keys
     - skip_missing: true
   become: true
-  no_log: true
+  no_log: "{{ true if item.0.passwd is defined else false }}"
   tags: users
 
 - include: sudo.yml
@@ -54,5 +54,5 @@
     state: absent
   with_items: "{{ users_deleted }}"
   become: true
-  no_log: "{{ true if item.passwd is defined }}"
+  no_log: "{{ true if item.passwd is defined else false }}"
   tags: users
