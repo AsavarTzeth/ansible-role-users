@@ -26,7 +26,6 @@
     createhome:
       "{{ false if item.system is defined and item.system or
       item.no_create_home is defined and item.no_create_home else omit }}"
-    state: "{{ item.state | default(omit) }}"
   with_items: "{{ users }}"
   become: true
   no_log: true
@@ -48,3 +47,12 @@
   when: users_enable_sudo
   become: false
   tags: users,sudo
+
+- name: delete users
+  user:
+    name: "{{ item.name | mandatory }}"
+    state: absent
+  with_items: "{{ users_deleted }}"
+  become: true
+  no_log: "{{ true if item.passwd is defined }}"
+  tags: users

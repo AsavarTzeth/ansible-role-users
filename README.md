@@ -34,6 +34,8 @@ does not have sudo installed and that should remain the case.
 
 ## Using the Role
 
+### Managing Users
+
 This role is rather flexible and so the only mandatory attribute is the name.
 
 Definable values:
@@ -52,12 +54,6 @@ Definable values:
 - system - If true, the user will be a system user. This does not affect
   existing users. It also means no home directory is created.
 
-Added values, outside of cloud-init:
-
-- state - This does exactly what an ansible user would expect.
-It is used to define if a user should exist or not.
-(Choices: present, absent)[Default: present]
-
 Example:
 ```
 users_default_shell: /bin/bash
@@ -74,7 +70,6 @@ users:
       - "ssh-rsa AAAAA.... foo@machine"
       - "ssh-rsa AAAAB.... bar@machine"
     sudo: ALL=(ALL) ALL
-    state: present
 
   - name: foobar
     gecos: FooBar Service Account
@@ -82,5 +77,33 @@ users:
     primary_group: foobar
     shell: /sbin/nologin
     system: true
-    state: present
+```
+
+### Deleting Users
+
+Simply move over your users to the users_deleted list. You may remove all
+lines except **"name"** which is mandatory.
+
+It may however be wise to leave the entries for history/archival purposes, or
+in case you need to recreate a user. Password entries are best left out.
+
+Example 1:
+```
+users_deleted:
+  - name: foobar1
+  - name: foobar2
+```
+
+Example 2:
+```
+users_deleted:
+  - name: foobar
+    gecos: Foo B. Bar
+    primary_group: foobar
+    groups: ['users','wheel']
+    shell: /bin/sh
+    ssh_authorized_keys:
+      - "ssh-rsa AAAAA.... foo@machine"
+      - "ssh-rsa AAAAB.... bar@machine"
+    sudo: ALL=(ALL) ALL
 ```
