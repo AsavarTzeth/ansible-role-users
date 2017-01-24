@@ -9,7 +9,7 @@ possibly extend it where it makes sense.
 
 Some minor noteworthy differences:
 
-- Any tilda characters had to be replaced by underscore; due to how ansible
+- Any dash characters had to be replaced by underscore; due to how ansible
   interprets variable names.
 
 For more information aboud cloud-init, see cloud-init documentation at:  
