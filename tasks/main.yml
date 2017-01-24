@@ -1,6 +1,6 @@
 ---
 - name: create groups
-  group: name="{{ item.primary_group }}"
+  group: name={{ item.primary_group }}
   when:
     - item.primary_group is defined
     - users_create_primary_group
