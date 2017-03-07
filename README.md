@@ -1,7 +1,7 @@
-Ansible Users Role - ansible-users
+Ansible Users Role - ansible-role-users
 ==================================
 
-**Ansible Role used to manage users, groups, ssh authorized keys and sudo.**
+**Ansible role used to manage users, groups, ssh authorized keys and sudo.**
 
 The configuration format of this role is heavily inspired by the format used
 with cloud-init/cloud config. The goal is to use the same or similar yaml
@@ -62,7 +62,7 @@ Example Playbook
 
     - hosts: all
       roles:
-        - role: AsavarTzeth.ansible-users
+        - role: AsavarTzeth.ansible-role-users
           users_default_shell: /bin/bash
           users_create_primary_group: true
           users_enable_sudo: true
@@ -81,7 +81,7 @@ Example Playbook
 
     - hosts: all
       roles:
-        - role: AsavarTzeth.ansible-users
+        - role: AsavarTzeth.ansible-role-users
             - name: foobar2
               gecos: FooBar Service Account
               homedir: /
@@ -93,7 +93,7 @@ Example Playbook
 
     - hosts: all
       roles:
-        - role: AsavarTzeth.ansible-users
+        - role: AsavarTzeth.ansible-role-users
           users_deleted:
             - name: foobar1
             - name: foobar2
