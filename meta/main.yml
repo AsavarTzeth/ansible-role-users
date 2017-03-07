@@ -23,6 +23,6 @@ galaxy_info:
       versions:
       - 7
 
-  galaxy_tags: ['user','users','sudo','authorized_keys','cloud-init']
+  galaxy_tags: ['user','users','sudo','authorized','keys','cloud','init']
 
 dependencies: []
