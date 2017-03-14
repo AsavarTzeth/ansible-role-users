@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/AsavarTzeth/ansible-role-users.svg?branch=master)](https://travis-ci.org/AsavarTzeth/ansible-role-users)
+
 Ansible Users Role - ansible-role-users
 ==================================
 
