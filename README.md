@@ -64,7 +64,7 @@ Example Playbook
 
     - hosts: all
       roles:
-        - role: AsavarTzeth.ansible-role-users
+        - role: AsavarTzeth.users
           users_default_shell: /bin/bash
           users_create_primary_group: true
           users_enable_sudo: true
@@ -83,7 +83,7 @@ Example Playbook
 
     - hosts: all
       roles:
-        - role: AsavarTzeth.ansible-role-users
+        - role: AsavarTzeth.users
           users:
             - name: foobar2
               gecos: FooBar Service Account
@@ -96,7 +96,7 @@ Example Playbook
 
     - hosts: all
       roles:
-        - role: AsavarTzeth.ansible-role-users
+        - role: AsavarTzeth.users
           users_deleted:
             - name: foobar1
             - name: foobar2
