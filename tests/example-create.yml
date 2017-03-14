@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: ansible-role-users
+      users_default_shell: /bin/bash
+      users_create_primary_group: true
+      users_enable_sudo: true
+      users:
+        - name: foobar1
+          gecos: Foo B. Bar
+          primary_group: foobar1
+          groups: ['users']
+          shell: /bin/bash
+          ssh_authorized_keys:
+            - "ssh-rsa AAAAA.... foo@host"
+            - "ssh-rsa AAAAB.... bar@host"
+          sudo: ALL=(ALL) ALL
+        - name: foobar2
+          gecos: FooBar Service Account
+          homedir: /
+          primary_group: foobar
+          shell: /sbin/nologin
+          system: true
