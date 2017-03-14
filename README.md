@@ -82,6 +82,7 @@ Example Playbook
     - hosts: all
       roles:
         - role: AsavarTzeth.ansible-role-users
+          users:
             - name: foobar2
               gecos: FooBar Service Account
               homedir: /
