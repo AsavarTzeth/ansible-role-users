@@ -60,7 +60,7 @@ None
 Example Playbook
 ----------------
 
-1) Add or modify a user and set up sudo and ssh authorized keys:
+Add or modify a user and set up sudo and ssh authorized keys:
 
     - hosts: all
       roles:
@@ -79,7 +79,7 @@ Example Playbook
                 - "ssh-rsa AAAAB.... bar@host"
               sudo: ALL=(ALL) ALL
 
-2) Add or modify a system user:
+Add or modify a system user:
 
     - hosts: all
       roles:
@@ -92,7 +92,7 @@ Example Playbook
               shell: /sbin/nologin
               system: true
 
-3) Deleting users:
+Deleting users:
 
     - hosts: all
       roles:
