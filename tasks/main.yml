@@ -1,52 +1,51 @@
 ---
-- name: create groups
-  group: name={{ item.primary_group }}
-  when:
-    - item.primary_group is defined
-    - users_create_primary_group
-  with_items: "{{ users }}"
-  become: true
-  no_log: "{{ true if item.passwd is defined else false }}"
-  tags: users
+- block:
+  - name: create groups
+    group: name={{ item.primary_group }}
+    when:
+      - item.primary_group is defined
+      - users_create_primary_group
+    with_items: "{{ users }}"
+    no_log: "{{ true if item.passwd is defined else false }}"
 
-- name: setup users
-  user:
-    name: "{{ item.name | mandatory }}"
-    group:
-      "{{ item.primary_group | default(omit)
-      if users_create_primary_group else omit }}"
-    groups: "{{ item.groups | default('') | join(',') }}"
-    shell: "{{ item.shell | default(users_default_shell) }}"
-    password:
-      "{{ item.passwd | password_hash('sha512',item.passwd_salt)
-      if item.passwd is defined and item.passwd_salt is defined else omit }}"
-    comment: "{{ item.gecos | default(omit) }}"
-    home: "{{ item.homedir | default(omit) }}"
-    system: "{{ item.system | default(omit) }}"
-    createhome:
-      "{{ false if item.system is defined and item.system or
-      item.no_create_home is defined and item.no_create_home else omit }}"
-  with_items: "{{ users }}"
-  become: true
-  no_log: "{{ true if item.passwd is defined else false }}"
-  tags: users
+  - name: setup users
+    user:
+      name: "{{ item.name | mandatory }}"
+      group:
+        "{{ item.primary_group | default(omit)
+        if users_create_primary_group else omit }}"
+      groups: "{{ item.groups | default('') | join(',') }}"
+      shell: "{{ item.shell | default(users_default_shell) }}"
+      password:
+        "{{ item.passwd | password_hash('sha512',item.passwd_salt)
+        if item.passwd is defined and item.passwd_salt is defined else omit }}"
+      comment: "{{ item.gecos | default(omit) }}"
+      home: "{{ item.homedir | default(omit) }}"
+      system: "{{ item.system | default(omit) }}"
+      createhome:
+        "{{ false if item.system is defined and item.system or
+        item.no_create_home is defined and item.no_create_home else omit }}"
+    with_items: "{{ users }}"
+    no_log: "{{ true if item.passwd is defined else false }}"
 
-- name: setup ssh keys
-  authorized_key:
-    user: "{{ item.0.name }}"
-    key: "{{ item.1 }}"
-  with_subelements:
-    - "{{ users }}"
-    - ssh_authorized_keys
-    - skip_missing: true
-  become: true
-  no_log: "{{ true if item.0.passwd is defined else false }}"
-  tags: users
+  - name: setup ssh keys
+    authorized_key:
+      user: "{{ item.0.name }}"
+      key: "{{ item.1 }}"
+    with_subelements:
+      - "{{ users }}"
+      - ssh_authorized_keys
+      - skip_missing: true
+    no_log: "{{ true if item.0.passwd is defined else false }}"
 
-- include: sudo.yml
-  when: users_enable_sudo
-  become: false
-  tags: users,sudo
+  - include: sudo.yml
+    when: users_enable_sudo
+    become: false
+    tags: sudo
+
+  become: true
+  tags: users,user
+  when: users is defined
 
 - name: delete users
   user:
@@ -55,4 +54,5 @@
   with_items: "{{ users_deleted }}"
   become: true
   no_log: "{{ true if item.passwd is defined else false }}"
-  tags: users
+  tags: users,user
+  when: users_deleted is defined

@@ -10,7 +10,3 @@ users_enable_sudo: true
 
 # Default sudo package name, which seems identical across distributions
 users_sudo_pkg_name: sudo
-
-# Default users lists are set, to prevent variable undefined errors
-users: []
-users_deleted: []
