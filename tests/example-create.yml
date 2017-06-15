@@ -12,6 +12,7 @@
           primary_group: foobar1
           groups: ['users']
           shell: /bin/bash
+          passwd: $6$mI3A2y4O.YfqhlPt$szsWfnICXsYLbsIghLauJG.I3enLYGDPBYO1DYTHn9gB6y3Q2faM7iqievJlU5ZMTT9X3wHrUv0c7HWkToGBp/
           ssh_authorized_keys:
             - "ssh-rsa AAAAA.... foo@host"
             - "ssh-rsa AAAAB.... bar@host"
@@ -22,3 +23,4 @@
           primary_group: foobar
           shell: /sbin/nologin
           system: true
+        - name: foobar3

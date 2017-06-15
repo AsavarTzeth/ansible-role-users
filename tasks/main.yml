@@ -16,9 +16,7 @@
         if users_create_primary_group else omit }}"
       groups: "{{ item.groups | default('') | join(',') }}"
       shell: "{{ item.shell | default(users_default_shell) }}"
-      password:
-        "{{ item.passwd | password_hash('sha512',item.passwd_salt)
-        if item.passwd is defined and item.passwd_salt is defined else omit }}"
+      password: "{{ item.passwd | default(omit) }}"
       comment: "{{ item.gecos | default(omit) }}"
       home: "{{ item.homedir | default(omit) }}"
       system: "{{ item.system | default(omit) }}"

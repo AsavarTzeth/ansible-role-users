@@ -26,31 +26,34 @@ It may work on lower versions but that is currently unsupported.
 Role Variables
 --------------
 
+List of variables and default values:
+
     # The default user shell, used on user creation.
-    users_default_shell: (default: /bin/bash)
+    users_default_shell: /bin/bash
 
     # Defines if the role should create a primary group if it does not exist.
     # In order to prevent the role from failing this is set to true by default.
     # Disable this if groups are managed elsewhere.
-    users_create_primary_group: (default: true)
+    users_create_primary_group: true
 
     # Enables management of privilege escalation using sudo.
     # Disable this if sudo will not be used, or is managed elsewhere.
-    users_enable_sudo: (default: true)
+    users_enable_sudo: true
 
 
     # The only mandatory parameter is the name.
     users:
-      - name:                 # The username of the user.
-        gecos:                # The comment field, also known and used for the real name of the user.
-        homedir:              # The home directory of the user.
-        primary_group:        # The primary user group.
-        groups:               # A list of complementary groups for the user.
-        no_create_home:       # If true, do not create a home directory.
-        shell:                # The default user shell.
-        ssh_authorized_keys:  # A list of ssh public keys to add to add to an authorized_keys file.
-        sudo:                 # The sudo string that will be used to configure sudo.
-        system:               # If true, the user will be a system user. This does not affect existing users.
+      - name: ''                           # The username of the user.
+        gecos: ''                          # The comment field, also known and used for the real name of the user.
+        homedir: ''                        # The home directory of the user.
+        primary_group: ''                  # The primary user group.
+        groups: []                         # A list of complementary groups for the user.
+        no_create_home: false              # If true, do not create a home directory. Defaults to true if `system: true`.
+        shell: "{{ users_default_shell }}" # The default user shell.
+        passwd: ''                         # A SHA512 hashed and salted password.
+        ssh_authorized_keys: []            # A list of ssh public keys to add to add to an authorized_keys file.
+        sudo: ''                           # The sudo string that will be used to configure sudo.
+        system: false                      # If true, the user will be a system user. This does not affect existing users.
 
 Dependencies
 ------------
@@ -100,6 +103,15 @@ Deleting users:
           users_deleted:
             - name: foobar1
             - name: foobar2
+
+Modifying a user password:
+
+    - hosts: all
+      roles:
+        - role: AsavarTzeth.users
+          users:
+            - name: foobar1
+              passwd: $6$mI3A2y4O.YfqhlPt$szsWfnICXsYLbsIghLauJG.I3enLYGDPBYO1DYTHn9gB6y3Q2faM7iqievJlU5ZMTT9X3wHrUv0c7HWkToGBp/
 
 License
 -------

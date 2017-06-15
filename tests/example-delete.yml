@@ -6,3 +6,4 @@
       users_deleted:
         - name: foobar1
         - name: foobar2
+        - name: foobar3
